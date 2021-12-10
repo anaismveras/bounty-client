@@ -9,14 +9,22 @@ function App() {
   const [bounties, setBounties] = useState([])
   const [current, setCurrent] = useState({})
 
-  useEffect(() => {
+  const getBounties = () => {
     fetch("http://localhost:8000/bounties")
       .then(response => response.json())
       .then(foundBounties => {
         // console.log(foundBounties)
         setBounties(foundBounties)
       })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    getBounties()
   }, [])
+
 
   const changeCurrent = bounty => {
     setCurrent(bounty)
@@ -40,7 +48,7 @@ function App() {
         {posters}
       </section>
       <section className="App-header">
-        <Form />
+        <Form refreshBounties={getBounties}/>
       </section>
     </div>
   );
